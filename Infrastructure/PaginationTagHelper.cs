@@ -42,7 +42,7 @@ namespace Mission09_brd48.Infrastructure
 
             TagBuilder final = new TagBuilder("div");
 
-            for (int i = 1; i < PageYarr.TotalPages; i++)
+            for (int i = 1; i <= PageYarr.TotalPages; i++)
             {
                 TagBuilder tb = new TagBuilder("a");
 
@@ -50,11 +50,10 @@ namespace Mission09_brd48.Infrastructure
                 if (PageClassesEnabled)
                 {
                     tb.AddCssClass(PageClass);
-                    tb.AddCssClass(i == PageYarr.CurrentPage
-                        ? PageClassSelected : PageClassNormal);
+                    tb.AddCssClass(i == PageYarr.CurrentPage ? PageClassSelected : PageClassNormal);
                 }
-                tb.InnerHtml.Append(i.ToString());
 
+                tb.InnerHtml.Append(i.ToString());
                 final.InnerHtml.AppendHtml(tb);
             }
 
