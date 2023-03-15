@@ -12,31 +12,34 @@ namespace Mission09_brd48.Pages
     public class PurchaseModel : PageModel
     {
         private IBookRepository repo { get; set; }
-
-        public PurchaseModel(IBookRepository temp)
-        {
-            repo = temp;
-        }
-
         public Cart cart { get; set; }
         public string ReturnUrl { get; set; }
+
+        public PurchaseModel(IBookRepository temp, Cart c)
+        {
+            repo = temp;
+            cart = c;
+        }
 
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
         public IActionResult OnPost(int bookId, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookId);
 
-            cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
             cart.AddItem(b, 1);
 
-            HttpContext.Session.SetJson("cart", cart);
-
             return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
+
+        public IActionResult OnPostRemove(int bookId, string returnUrl)
+        {
+            cart.RemoveItem(cart.Items.First(x => x.Book.BookId == bookId).Book);
+
+            return RedirectToPage ( new {ReturnUrl = returnUrl});
         }
     }
 }

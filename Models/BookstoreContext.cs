@@ -20,6 +20,7 @@ namespace Mission09_brd48.Models
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<MadePurchase> MadePurchases { get; set; }
 
     }
 }
